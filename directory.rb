@@ -1,6 +1,24 @@
+def default(x)
+  if !x.empty?
+    x
+  else
+    "Unknown"
+  end
+end
+
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
+end
+
+def default_cohort(x)
+  month = %w(january february march april may june july august september october november december)
+  x.downcase
+  until month.include?(x)
+    puts "Please choose a correct month."
+    x = gets.chomp
+  end
+  x
 end
 
 def print(students)
@@ -26,31 +44,39 @@ end
 
 def input_students
   puts "Please enter the names of the students, then their personal information."
-  puts "To finish, just leave each question blank (press enter)."
+  puts "To finish,  press Enter."
   # create an empty array
   students = []
-  # get first name
+
   name = gets.chomp
   puts "And their hobby?"
   hobby = gets.chomp
   puts "And their height?"
   height = gets.chomp
   puts "Their cohort?"
-  cohort = gets.chomp.to_sym
-  # while name is not empty, repeat this code
+  cohort = gets.chomp
+
   while !name.empty? do
     # add student hash to the array
-    students << {name: name, cohort: cohort, hobby: hobby, height: height}
+    students << {
+      name: default(name),
+      cohort: default_cohort(cohort).to_sym,
+      hobby: default(hobby),
+      height: default(height)
+  }
+
     puts "Now we have #{students.count} students. Please enter another."
     # get more info from the user
     name = gets.chomp
+    if !name.empty?
     puts "And their hobby?"
     hobby = gets.chomp
     puts "And their height?"
     height = gets.chomp
     puts "Their cohort?"
-    cohort = gets.chomp.to_sym
+    cohort = gets.chomp
   end
+ end
   students
 end
 
@@ -58,4 +84,3 @@ students = input_students
 print_header
 print(students)
 print_footer(students)
-loop(students)
