@@ -5,7 +5,7 @@ end
 
 def print(students)
   students.each_with_index do |student, index|
-  if student[:name].start_with?("B")
+  if student[:name].length < 12
   x = "#{index}. #{student[:name]} (#{student[:cohort]} cohort). Hobbies: #{student[:hobby]}. Height: #{student[:height]}."
   puts x.center(100)
    end
