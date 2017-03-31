@@ -6,11 +6,15 @@ def default(x)
   end
 end
 
-def print_header
-  x =  "The students of Villains Academy"
-  y =  "-------------"
-  puts x.center(100)
-  puts y.center(100)
+def print_header students
+  if students.count == 0
+   puts ""
+  else
+   x =  "The students of Villains Academy"
+   y =  "-------------"
+   puts x.center(100)
+   puts y.center(100)
+ end
 end
 
 def default_cohort(x)
@@ -24,13 +28,16 @@ def default_cohort(x)
 end
 
 def print(students)
-  title = "Here are all the students together:"
+ if students.count == 0
+   puts "There are no students enrolled..."
+ else
   puts title.center(100)
   students.each_with_index do |student, index|
   if student[:name].length < 12
   x = "#{index}. #{student[:name]} (#{student[:cohort]} cohort). Hobbies: #{student[:hobby]}. Height: #{student[:height]}."
   puts x.center(100)
    end
+  end
  end
 end
 
@@ -43,7 +50,11 @@ end
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students."
+  if students.count == 0
+    puts ""
+  else
+   puts "Overall, we have #{students.count} great students."
+ end
 end
 
 def input_students
@@ -87,21 +98,7 @@ def input_students
   students
 end
 
-def cohort_list students
-students.group_by { |hash| hash[:cohort]}.each {|key, value| # new hash has value of cohort (month) as the key
-x = "#{key.capitalize} Cohorts" # this shows the month
-y = "--------"
-puts x.center(100)
-puts y.center(100)
-value.each {|v|
-  puts v[:name].center(100)
-} # look at all the values, for each element print the value of name
-puts ""
-}
-end
-
 students = input_students
-print_header
-cohort_list(students)
+print_header(students)
 print(students)
 print_footer(students)
