@@ -64,8 +64,11 @@ def input_students
       hobby: default(hobby),
       height: default(height)
   }
-
+    if students.count == 1
+      puts "Now we have 1 student. Please enter another."
+    else
     puts "Now we have #{students.count} students. Please enter another."
+  end
     # get more info from the user
     name = gets.chomp
     if !name.empty?
@@ -92,4 +95,7 @@ puts ""
 end
 
 students = input_students
+print_header
 cohort_list(students)
+print(students)
+print_footer(students)
