@@ -75,12 +75,21 @@ def input_students
     height = gets.chomp
     puts "Their cohort?"
     cohort = gets.chomp
+   end
   end
- end
   students
 end
 
+def cohort_list students
+students.group_by { |hash| hash[:cohort]}.each {|key, value| # new hash has value of cohort (month) as the key
+puts "#{key.capitalize} Cohorts" # this shows the month
+puts "--------"
+value.each {|v|
+  puts v[:name]
+} # look at all the values, for each element print the value of name
+puts ""
+}
+end
+
 students = input_students
-print_header
-print(students)
-print_footer(students)
+cohort_list(students)
