@@ -7,8 +7,10 @@ def default(x)
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  x =  "The students of Villains Academy"
+  y =  "-------------"
+  puts x.center(100)
+  puts y.center(100)
 end
 
 def default_cohort(x)
@@ -16,12 +18,14 @@ def default_cohort(x)
   x.downcase
   until month.include?(x)
     puts "Please choose a correct month."
-    x = gets.chomp
+    x = gets.delete("\n")
   end
   x
 end
 
 def print(students)
+  title = "Here are all the students together:"
+  puts title.center(100)
   students.each_with_index do |student, index|
   if student[:name].length < 12
   x = "#{index}. #{student[:name]} (#{student[:cohort]} cohort). Hobbies: #{student[:hobby]}. Height: #{student[:height]}."
@@ -48,13 +52,13 @@ def input_students
   # create an empty array
   students = []
 
-  name = gets.chomp
+  name = gets.delete("\n")
   puts "And their hobby?"
-  hobby = gets.chomp
+  hobby = gets.delete("\n")
   puts "And their height?"
-  height = gets.chomp
+  height = gets.delete("\n")
   puts "Their cohort?"
-  cohort = gets.chomp
+  cohort = gets.delete("\n")
 
   while !name.empty? do
     # add student hash to the array
@@ -70,14 +74,14 @@ def input_students
     puts "Now we have #{students.count} students. Please enter another."
   end
     # get more info from the user
-    name = gets.chomp
+    name = gets.delete("\n")
     if !name.empty?
     puts "And their hobby?"
-    hobby = gets.chomp
+    hobby = gets.delete("\n")
     puts "And their height?"
-    height = gets.chomp
+    height = gets.delete("\n")
     puts "Their cohort?"
-    cohort = gets.chomp
+    cohort = gets.delete("\n")
    end
   end
   students
@@ -85,10 +89,12 @@ end
 
 def cohort_list students
 students.group_by { |hash| hash[:cohort]}.each {|key, value| # new hash has value of cohort (month) as the key
-puts "#{key.capitalize} Cohorts" # this shows the month
-puts "--------"
+x = "#{key.capitalize} Cohorts" # this shows the month
+y = "--------"
+puts x.center(100)
+puts y.center(100)
 value.each {|v|
-  puts v[:name]
+  puts v[:name].center(100)
 } # look at all the values, for each element print the value of name
 puts ""
 }
