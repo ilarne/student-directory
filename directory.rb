@@ -1,5 +1,17 @@
 @students = [] # empty array accessible to all methods
 
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil? # leave method if filename isn't fiven
+  if File.exists?(filename) # check given file exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
@@ -34,14 +46,14 @@ end
 def interactive_menu
   loop do
   print_menu
-  process(gets.chomp)
+  process(STDIN.gets.chomp)
   end
 end
 
 def input_students
   puts "Please enter the names of the students, then their personal information."
   puts "To finish,  press Enter."
-  name = gets.chomp
+  name = STDIN.gets.chomp
   while !name.empty? do
     # add student hash to the array
     @students << {
@@ -52,7 +64,7 @@ def input_students
     puts "Now we have #{@students.count} students. Please enter another."
   end
     # get more info from the user
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
 end
 
@@ -94,8 +106,8 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv") # students.csv is now default arugment if none is given
+  file = File.open(filename, "r")
   file.readlines.each do |line| # read all lines into an array and iterate over it
 # below we assign two variables at the same time. For arrays, the first variable gets the first value, the second = seconds value, etc
     name, cohort = line.chomp.split(',') # on each iteration we discard new line char and split at comma
@@ -104,4 +116,5 @@ def load_students
   file.close
 end
 
+try_load_students
 interactive_menu
