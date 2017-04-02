@@ -4,6 +4,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save list to students.csv"
+  puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
 
@@ -15,6 +16,8 @@ def process(selection)
     show_students
   when "3"
     save_students
+  when "4"
+    load_students
   when "9"
     exit
   else
@@ -81,12 +84,22 @@ end
 
 def save_students
   # open the file for writing
-  file = File.open("students.csv", "w") # created file object called students.csv with write permissions
+  file = File.open("students.csv", "w") # created file object called students.csv with write access mode
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",") # joins array together as a string separated by ","
     file.puts csv_line  # call puts on file to write csv_line to file
+  end
+  file.close
+end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line| # read all lines into an array and iterate over it
+# below we assign two variables at the same time. For arrays, the first variable gets the first value, the second = seconds value, etc
+    name, cohort = line.chomp.split(',') # on each iteration we discard new line char and split at comma
+    @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
 end
