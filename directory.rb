@@ -1,27 +1,38 @@
+@students = []
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_students
+  when "9"
+    exit
+  else
+    puts "I don't know what you mean. Try again."
+  end
+end
+
+def show_students
+  print_header
+  print_students_list
+  print_footer
+end
+
 def interactive_menu
-  students = []
   loop do
-    puts "1 Input students"
-    puts "2 View students"
-    puts "9 Exit"
-    selection = gets.chomp
-    case selection
-    when "1"
-      students = input_students
-    when "2"
-      print_header
-      print(students)
-      print_footer(students)
-    when "9"
-      exit
-    else
-      puts "I don't know what you mean. Try again."
-    end
+  print_menu
+  process(gets.chomp)
   end
 end
 
 def input_students
-  students = []
   puts "Please enter the names of the students, then their personal information."
   puts "To finish,  press Enter."
   name = gets.chomp
@@ -34,16 +45,16 @@ def input_students
 
   while !name.empty? do
     # add student hash to the array
-    students << {
+    @students << {
       name: default(name),
       cohort: default_cohort(cohort).to_sym.capitalize,
       hobby: default(hobby),
       height: default(height)
   }
-    if students.count == 1
+    if @students.count == 1
       puts "Now we have 1 student. Please enter another."
     else
-    puts "Now we have #{students.count} students. Please enter another."
+    puts "Now we have #{@students.count} students. Please enter another."
   end
     # get more info from the user
     name = gets.chomp
@@ -56,7 +67,6 @@ def input_students
     cohort = gets.chomp
    end
   end
-  students
 end
 
 def default(x)
@@ -83,22 +93,22 @@ def default_cohort(x)
   x
 end
 
-def print(students)
- if students.count == 0
+def print_students_list
+ if @students.count == 0
    puts "There are no students enrolled..."
  else
-  students.each_with_index do |student, index|
+  @students.each_with_index do |student, index|
   x = "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). Hobbies: #{student[:hobby]}. Height: #{student[:height]}."
   puts x.center(100)
    end
  end
 end
 
-def print_footer(students)
-  if students.count == 0
+def print_footer
+  if @students.count == 0
     puts ""
   else
-   puts "Overall, we have #{students.count} great students."
+   puts "Overall, we have #{@students.count} great @students."
  end
 end
 
