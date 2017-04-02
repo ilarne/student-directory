@@ -1,3 +1,64 @@
+def interactive_menu
+  students = []
+  loop do
+    puts "1 Input students"
+    puts "2 View students"
+    puts "9 Exit"
+    selection = gets.chomp
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print(students)
+      print_footer(students)
+    when "9"
+      exit
+    else
+      puts "I don't know what you mean. Try again."
+    end
+  end
+end
+
+def input_students
+  students = []
+  puts "Please enter the names of the students, then their personal information."
+  puts "To finish,  press Enter."
+  name = gets.chomp
+  puts "And their hobby?"
+  hobby = gets.chomp
+  puts "And their height?"
+  height = gets.chomp
+  puts "Their cohort?"
+  cohort = gets.chomp
+
+  while !name.empty? do
+    # add student hash to the array
+    students << {
+      name: default(name),
+      cohort: default_cohort(cohort).to_sym.capitalize,
+      hobby: default(hobby),
+      height: default(height)
+  }
+    if students.count == 1
+      puts "Now we have 1 student. Please enter another."
+    else
+    puts "Now we have #{students.count} students. Please enter another."
+  end
+    # get more info from the user
+    name = gets.chomp
+    if !name.empty?
+    puts "And their hobby?"
+    hobby = gets.chomp
+    puts "And their height?"
+    height = gets.chomp
+    puts "Their cohort?"
+    cohort = gets.chomp
+   end
+  end
+  students
+end
+
 def default(x)
   if !x.empty?
     x
@@ -6,23 +67,18 @@ def default(x)
   end
 end
 
-def print_header students
-  if students.count == 0
-   puts ""
-  else
+def print_header
    x =  "The students of Villains Academy"
    y =  "-------------"
    puts x.center(100)
    puts y.center(100)
- end
 end
 
 def default_cohort(x)
   month = %w(january february march april may june july august september october november december)
-  x.downcase
-  until month.include?(x)
+  until month.include?(x.downcase)
     puts "Please choose a correct month."
-    x = gets.delete("\n")
+    x = gets.chomp
   end
   x
 end
@@ -31,22 +87,11 @@ def print(students)
  if students.count == 0
    puts "There are no students enrolled..."
  else
-  puts title.center(100)
   students.each_with_index do |student, index|
-  if student[:name].length < 12
-  x = "#{index}. #{student[:name]} (#{student[:cohort]} cohort). Hobbies: #{student[:hobby]}. Height: #{student[:height]}."
+  x = "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). Hobbies: #{student[:hobby]}. Height: #{student[:height]}."
   puts x.center(100)
    end
-  end
  end
-end
-
-def loop(students)
-  x = 0
-  until x == students.count
-    puts "#{students[x][:name]} (#{students[x][:cohort]} cohort). Hobbies: #{students[x][:hobby]}. Height: #{students[x][:height]}."
-  x += 1
-end
 end
 
 def print_footer(students)
@@ -57,48 +102,4 @@ def print_footer(students)
  end
 end
 
-def input_students
-  puts "Please enter the names of the students, then their personal information."
-  puts "To finish,  press Enter."
-  # create an empty array
-  students = []
-
-  name = gets.delete("\n")
-  puts "And their hobby?"
-  hobby = gets.delete("\n")
-  puts "And their height?"
-  height = gets.delete("\n")
-  puts "Their cohort?"
-  cohort = gets.delete("\n")
-
-  while !name.empty? do
-    # add student hash to the array
-    students << {
-      name: default(name),
-      cohort: default_cohort(cohort).to_sym,
-      hobby: default(hobby),
-      height: default(height)
-  }
-    if students.count == 1
-      puts "Now we have 1 student. Please enter another."
-    else
-    puts "Now we have #{students.count} students. Please enter another."
-  end
-    # get more info from the user
-    name = gets.delete("\n")
-    if !name.empty?
-    puts "And their hobby?"
-    hobby = gets.delete("\n")
-    puts "And their height?"
-    height = gets.delete("\n")
-    puts "Their cohort?"
-    cohort = gets.delete("\n")
-   end
-  end
-  students
-end
-
-students = input_students
-print_header(students)
-print(students)
-print_footer(students)
+interactive_menu
