@@ -50,14 +50,20 @@ def interactive_menu
   end
 end
 
+def move_students(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
+end
+
 def input_students
   puts "Please enter the names of the students, then their personal information."
   puts "To finish,  press Enter."
   name = STDIN.gets.chomp
+  cohort = :november
   while !name.empty? do
+    move_students(name, cohort)
     # add student hash to the array
-    @students << {
-      name: name, cohort: :november }
+    #@students << {
+      #name: name, cohort: :november }
     if @students.count == 1
       puts "Now we have 1 student. Please enter another."
     else
@@ -111,7 +117,7 @@ def load_students(filename = "students.csv") # students.csv is now default arugm
   file.readlines.each do |line| # read all lines into an array and iterate over it
 # below we assign two variables at the same time. For arrays, the first variable gets the first value, the second = seconds value, etc
     name, cohort = line.chomp.split(',') # on each iteration we discard new line char and split at comma
-    @students << {name: name, cohort: cohort.to_sym}
+    move_students(name, cohort)
   end
   file.close
 end
