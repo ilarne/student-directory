@@ -27,9 +27,13 @@ def process(selection)
   when "2"
     show_students
   when "3"
-    save_students
+    puts "Please name the file."
+    file = STDIN.gets.chomp
+    save_students(file)
   when "4"
-    load_students
+    puts "Load which file?"
+    file = STDIN.gets.chomp
+    load_students(file)
   when "9"
     exit
   else
@@ -98,9 +102,9 @@ def print_footer
  end
 end
 
-def save_students
+def save_students(filename)
   # open the file for writing
-  file = File.open("students.csv", "w") # created file object called students.csv with write access mode
+  file = File.open(filename, "w") # created file object called students.csv with write access mode
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -111,7 +115,7 @@ def save_students
   puts "File saved."
 end
 
-def load_students(filename = "students.csv") # students.csv is now default arugment if none is given
+def load_students(filename) # students.csv is now default arugment if none is given
   file = File.open(filename, "r")
   file.readlines.each do |line| # read all lines into an array and iterate over it
 # below we assign two variables at the same time. For arrays, the first variable gets the first value, the second = seconds value, etc
@@ -122,5 +126,4 @@ def load_students(filename = "students.csv") # students.csv is now default arugm
   puts "File loaded."
 end
 
-load_students
 interactive_menu
