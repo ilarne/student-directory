@@ -61,9 +61,6 @@ def input_students
   cohort = :november
   while !name.empty? do
     move_students(name, cohort)
-    # add student hash to the array
-    #@students << {
-      #name: name, cohort: :november }
     if @students.count == 1
       puts "Now we have 1 student. Please enter another."
     else
@@ -72,6 +69,7 @@ def input_students
     # get more info from the user
     name = STDIN.gets.chomp
   end
+  puts "Student entered."
 end
 
 def print_header
@@ -110,6 +108,7 @@ def save_students
     file.puts csv_line  # call puts on file to write csv_line to file
   end
   file.close
+  puts "File saved."
 end
 
 def load_students(filename = "students.csv") # students.csv is now default arugment if none is given
@@ -120,6 +119,7 @@ def load_students(filename = "students.csv") # students.csv is now default arugm
     move_students(name, cohort)
   end
   file.close
+  puts "File loaded."
 end
 
 load_students
