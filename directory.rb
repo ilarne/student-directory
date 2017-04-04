@@ -104,25 +104,25 @@ end
 
 def save_students(filename)
   # open the file for writing
-  file = File.open(filename, "w") # created file object called students.csv with write access mode
+  File::open(filename, "w") {|file| # created file object called students.csv with write access mode
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",") # joins array together as a string separated by ","
     file.puts csv_line  # call puts on file to write csv_line to file
-  end
-  file.close
+    end
+  }
   puts "File saved."
 end
 
 def load_students(filename) # students.csv is now default arugment if none is given
-  file = File.open(filename, "r")
+  File::open(filename, "r") {|file|
   file.readlines.each do |line| # read all lines into an array and iterate over it
 # below we assign two variables at the same time. For arrays, the first variable gets the first value, the second = seconds value, etc
     name, cohort = line.chomp.split(',') # on each iteration we discard new line char and split at comma
     move_students(name, cohort)
-  end
-  file.close
+    end
+   }
   puts "File loaded."
 end
 
