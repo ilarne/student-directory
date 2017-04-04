@@ -122,5 +122,5 @@ def load_students(filename = "students.csv") # students.csv is now default arugm
   file.close
 end
 
-try_load_students
+load_students
 interactive_menu
