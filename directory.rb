@@ -1,3 +1,4 @@
+require 'csv'
 @students = [] # empty array accessible to all methods
 
 def try_load_students
@@ -27,11 +28,9 @@ def process(selection)
   when "2"
     show_students
   when "3"
-    puts "Please name the file."
-    file = STDIN.gets.chomp
-    save_students(file)
+    save_students
   when "4"
-    puts "Load which file?"
+    puts "Type which file to load."
     file = STDIN.gets.chomp
     load_students(file)
   when "9"
@@ -102,28 +101,27 @@ def print_footer
  end
 end
 
-def save_students(filename)
-  # open the file for writing
-  File::open(filename, "w") {|file| # created file object called students.csv with write access mode
-  # iterate over the array of students
+def save_students
+  CSV.open("students.csv", "w") {|file|
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",") # joins array together as a string separated by ","
-    file.puts csv_line  # call puts on file to write csv_line to file
+    file.puts student_data
     end
   }
   puts "File saved."
 end
 
-def load_students(filename) # students.csv is now default arugment if none is given
-  File::open(filename, "r") {|file|
-  file.readlines.each do |line| # read all lines into an array and iterate over it
-# below we assign two variables at the same time. For arrays, the first variable gets the first value, the second = seconds value, etc
-    name, cohort = line.chomp.split(',') # on each iteration we discard new line char and split at comma
+def load_students(file)
+  if File.exists?(file)
+  CSV.foreach(file, "r") { |line|
+    name, cohort = line[0], line[1]
     move_students(name, cohort)
-    end
-   }
-  puts "File loaded."
+    }
+    puts "File loaded."
+  else
+    puts "Sorry, #{file} doesn't exist."
+  end
 end
 
+try_load_students
 interactive_menu
